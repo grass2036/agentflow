@@ -59,7 +59,7 @@ class HelloAgent(BasePlugin):
             "greeting": greeting,
             "language": language,
             "count": self.greeting_count,
-            "timestamp": context.timestamp.isoformat() if context.timestamp else None
+            "timestamp": None  # 简化示例，不使用时间戳
         }
     
     async def cleanup(self) -> None:
@@ -95,7 +95,9 @@ async def main():
         results = []
         for i, test_data in enumerate(test_cases, 1):
             context = PluginContext(
-                plugin_name="hello_agent",
+                agent_id="hello_agent",
+                task_id=f"task_{i}",
+                session_id="demo_session",
                 data=test_data
             )
             
