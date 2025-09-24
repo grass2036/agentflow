@@ -87,11 +87,11 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/agentflow/agentflow"
+Homepage = "https://github.com/grass2036/agentflow"
 Documentation = "https://agentflow.readthedocs.io"
-Repository = "https://github.com/agentflow/agentflow.git"
-Issues = "https://github.com/agentflow/agentflow/issues"
-Changelog = "https://github.com/agentflow/agentflow/blob/main/CHANGELOG.md"
+Repository = "git@github.com:grass2036/agentflow.git"
+Issues = "https://github.com/grass2036/agentflow/issues"
+Changelog = "https://github.com/grass2036/agentflow/blob/main/CHANGELOG.md"
 
 [project.scripts]
 agentflow = "agentflow.cli.main:main"

@@ -2,8 +2,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.0-orange.svg)](https://github.com/agentflow/agentflow)
-[![Tests](https://img.shields.io/badge/Tests-Passing-green.svg)](https://github.com/agentflow/agentflow)
+[![Version](https://img.shields.io/badge/Version-0.1.0-orange.svg)](https://github.com/grass2036/agentflow)
+[![Tests](https://img.shields.io/badge/Tests-Passing-green.svg)](https://github.com/grass2036/agentflow)
 
 **Open-source AI Agent orchestration framework for building intelligent multi-agent systems.**
 
@@ -43,7 +43,7 @@ AgentFlow provides a powerful, flexible foundation for creating complex AI workf
 pip install agentflow
 
 # Or install from source
-git clone https://github.com/agentflow/agentflow.git
+git clone git@github.com:grass2036/agentflow.git
 cd agentflow
 pip install -e .
 ```
@@ -321,7 +321,7 @@ agentflow create enterprise-system --template basic
 
 ```bash
 # Clone repository
-git clone https://github.com/agentflow/agentflow.git
+git clone git@github.com:grass2036/agentflow.git
 cd agentflow
 
 # Install in development mode
