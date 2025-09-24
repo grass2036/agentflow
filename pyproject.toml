@@ -1,0 +1,224 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentflow"
+version = "0.1.0"
+description = "Open-source AI Agent orchestration framework for building intelligent multi-agent systems"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "AgentFlow Team", email = "contact@agentflow.dev"}
+]
+maintainers = [
+    {name = "AgentFlow Team", email = "contact@agentflow.dev"}
+]
+keywords = [
+    "ai", "agent", "framework", "orchestration", "multi-agent", 
+    "workflow", "automation", "plugins", "opensource"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Code Generators",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "aiohttp>=3.8.0",
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0",
+    "asyncio>=3.4.3",
+]
+
+[project.optional-dependencies]
+langchain = [
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.20",
+    "langchain-openai>=0.0.2",
+    "openai>=1.7.0",
+    "tiktoken>=0.5.2",
+]
+google = [
+    "google-generativeai>=0.8.0",
+]
+redis = [
+    "redis[hiredis]>=5.0.0",
+    "aioredis>=2.0.1",
+]
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.20.0",
+    "websockets>=11.0.0",
+]
+database = [
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.10.0",
+    "psycopg2-binary>=2.9.0",
+]
+testing = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "httpx>=0.24.0",
+    "pytest-mock>=3.10.0",
+]
+dev = [
+    "agentflow[langchain,google,redis,web,database,testing]",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "sphinx>=6.0.0",
+    "sphinx-rtd-theme>=1.2.0",
+]
+all = [
+    "agentflow[langchain,google,redis,web,database,testing,dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/agentflow/agentflow"
+Documentation = "https://agentflow.readthedocs.io"
+Repository = "https://github.com/agentflow/agentflow.git"
+Issues = "https://github.com/agentflow/agentflow/issues"
+Changelog = "https://github.com/agentflow/agentflow/blob/main/CHANGELOG.md"
+
+[project.scripts]
+agentflow = "agentflow.cli.main:main"
+
+[project.entry-points."agentflow.plugins"]
+hello_world = "agentflow.plugins.builtin.hello_world:HelloWorldPlugin"
+openai = "agentflow.plugins.builtin.openai_plugin:OpenAIPlugin"
+openrouter = "agentflow.plugins.builtin.openrouter_plugin:OpenRouterPlugin"
+
+# Setuptools配置
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agentflow*"]
+
+[tool.setuptools.package-data]
+agentflow = ["py.typed", "*.yml", "*.yaml", "*.json"]
+
+# 代码质量工具配置
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 100
+known_first_party = ["agentflow"]
+skip_glob = ["**/migrations/*"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "langchain.*",
+    "openai.*",
+    "redis.*",
+    "aioredis.*"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=agentflow",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml",
+]
+testpaths = ["tests"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests", 
+    "e2e: End-to-end tests",
+    "slow: Slow tests",
+    "external: Tests requiring external services",
+]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/examples/*",
+    "*/scripts/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203", "W503", "E501"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "docs/source/conf.py",
+    "old",
+    "build",
+    "dist",
+    ".venv",
+    ".eggs",
+    "*.egg",
+]
+
+# Sphinx文档配置
+[tool.sphinx]
+source-dir = "docs"
+build-dir = "docs/_build"

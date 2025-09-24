@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # AgentFlow主服务
+  agentflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agentflow-main
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./.env:/app/.env:ro  # 只读挂载环境变量
+      - ./agentflow/examples:/app/agentflow/examples
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - agent_plugins:/app/plugins
+    environment:
+      - PYTHONPATH=/app
+      - AGENTFLOW_LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      - redis
+    networks:
+      - agentflow-network
+    restart: unless-stopped
+    command: agentflow dev serve --host 0.0.0.0 --port 8000
+
+  # Redis服务 - 用于事件总线和缓存
+  redis:
+    image: redis:7-alpine
+    container_name: agentflow-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - agentflow-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # PostgreSQL服务 - 用于数据库插件
+  postgres:
+    image: postgres:15-alpine
+    container_name: agentflow-postgres
+    environment:
+      POSTGRES_DB: agentflow
+      POSTGRES_USER: agentflow
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-agentflow123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - agentflow-network
+    restart: unless-stopped
+    profiles:
+      - database
+
+  # Web界面（可选）
+  agentflow-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agentflow-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./.env:/app/.env:ro
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - agentflow
+    networks:
+      - agentflow-network
+    restart: unless-stopped
+    profiles:
+      - web
+    command: agentflow dev serve --host 0.0.0.0 --port 3000
+
+networks:
+  agentflow-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  postgres_data:
+  agent_plugins:

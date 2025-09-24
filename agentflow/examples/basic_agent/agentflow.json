@@ -1,0 +1,16 @@
+{
+  "name": "basic-agent-example",
+  "version": "1.0.0",
+  "description": "Basic AgentFlow example demonstrating core functionality",
+  "plugins": [
+    "simple_task"
+  ],
+  "config": {
+    "max_concurrent_tasks": 3,
+    "task_timeout": 30,
+    "logging": {
+      "level": "INFO",
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+  }
+}

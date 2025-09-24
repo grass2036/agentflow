@@ -1,0 +1,52 @@
+# AgentFlow - Core Dependencies
+# AgentFlow核心依赖包
+
+# =============================================================================
+# 核心依赖 (Core Dependencies)  
+# =============================================================================
+
+# 异步HTTP支持
+aiohttp>=3.8.0
+
+# 数据验证和类型系统
+pydantic>=2.0.0
+typing-extensions>=4.0.0
+
+# 基础异步支持
+asyncio>=3.4.3
+
+# =============================================================================
+# 可选依赖 (Optional Dependencies)
+# =============================================================================
+# 通过 pip install -e .[feature] 安装特定功能
+
+# LangChain集成:
+# pip install -e .[langchain]
+# langchain>=0.1.0
+# langchain-community>=0.0.20
+# openai>=1.7.0
+
+# Web API支持:  
+# pip install -e .[web]
+# fastapi>=0.100.0
+# uvicorn[standard]>=0.20.0
+
+# 数据库支持:
+# pip install -e .[database] 
+# sqlalchemy>=2.0.0
+# alembic>=1.10.0
+
+# Redis支持:
+# pip install -e .[redis]
+# redis[hiredis]>=5.0.0
+# aioredis>=2.0.1
+
+# =============================================================================
+# 安装命令
+# =============================================================================
+
+# 基础安装:     pip install agentflow
+# 完整安装:     pip install agentflow[all]
+# 开发安装:     pip install -e .[dev]
+# Web功能:      pip install agentflow[web]
+# LangChain:    pip install agentflow[langchain]
