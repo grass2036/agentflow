@@ -55,9 +55,8 @@ class DataProcessorPlugin(BasePlugin):
         self.register_hook("transform_data")
         
         # 设置默认配置
-        self.config = self.config or {}
-        self.max_cache_size = self.config.get("max_cache_size", 100)
-        self.enable_logging = self.config.get("enable_logging", True)
+        self.max_cache_size = self.config.config.get("max_cache_size", 100)
+        self.enable_logging = self.config.config.get("enable_logging", True)
         
         print(f"   ✓ 最大缓存：{self.max_cache_size}")
         print(f"   ✓ 日志记录：{self.enable_logging}")
@@ -326,10 +325,14 @@ async def demo_plugin_usage():
     print("=" * 60)
     
     # 创建插件实例
-    config = {
-        "max_cache_size": 50,
-        "enable_logging": True
-    }
+    from agentflow.plugins.base import PluginConfig
+    config = PluginConfig(
+        enabled=True,
+        config={
+            "max_cache_size": 50,
+            "enable_logging": True
+        }
+    )
     plugin = DataProcessorPlugin(config)
     
     try:
@@ -341,7 +344,9 @@ async def demo_plugin_usage():
             {
                 "name": "计数操作",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_count",
+                    session_id="demo_session",
                     data={
                         "operation": "count",
                         "data": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -351,7 +356,9 @@ async def demo_plugin_usage():
             {
                 "name": "求和操作",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_sum",
+                    session_id="demo_session",
                     data={
                         "operation": "sum",
                         "data": [10, 20, 30, 40, 50]
@@ -361,7 +368,9 @@ async def demo_plugin_usage():
             {
                 "name": "过滤操作",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_sum",
+                    session_id="demo_session",
                     data={
                         "operation": "filter",
                         "data": [
@@ -377,7 +386,9 @@ async def demo_plugin_usage():
             {
                 "name": "分组操作",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_sum",
+                    session_id="demo_session",
                     data={
                         "operation": "group",
                         "data": [
@@ -393,7 +404,9 @@ async def demo_plugin_usage():
             {
                 "name": "数据验证",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_sum",
+                    session_id="demo_session",
                     data={
                         "operation": "validate",
                         "data": {"name": "测试用户", "email": "test@example.com"},
@@ -408,7 +421,9 @@ async def demo_plugin_usage():
             {
                 "name": "缓存操作",
                 "context": PluginContext(
-                    plugin_name="data_processor",
+                    agent_id="data_processor",
+                    task_id="task_sum",
+                    session_id="demo_session",
                     data={
                         "operation": "cache",
                         "key": "user_data",

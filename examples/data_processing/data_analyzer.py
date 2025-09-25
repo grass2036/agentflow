@@ -545,7 +545,9 @@ async def run_analysis_demo():
         {
             "name": "基础统计分析 - 销售数据",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "basic_stats",
                     "data": [item["sales"] for item in sales_data]
@@ -555,7 +557,9 @@ async def run_analysis_demo():
         {
             "name": "趋势分析 - 销售趋势",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "trend_analysis",
                     "data": [{"x": i, "y": item["sales"]} for i, item in enumerate(sales_data)]
@@ -565,7 +569,9 @@ async def run_analysis_demo():
         {
             "name": "分组分析 - 按地区分组",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "group_analysis",
                     "data": sales_data,
@@ -576,7 +582,9 @@ async def run_analysis_demo():
         {
             "name": "异常检测 - 用户收入",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "anomaly_detection",
                     "data": [item["income"] for item in user_data]
@@ -586,7 +594,9 @@ async def run_analysis_demo():
         {
             "name": "相关性分析 - 年龄vs收入vs满意度",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "correlation",
                     "data": user_data
@@ -596,7 +606,9 @@ async def run_analysis_demo():
         {
             "name": "时间序列分析",
             "context": PluginContext(
-                plugin_name="data_analyzer",
+                agent_id="data_analyzer",
+                task_id="analysis_task",
+                session_id="demo_session",
                 data={
                     "analysis_type": "time_series",
                     "data": time_series_data
